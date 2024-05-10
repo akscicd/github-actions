@@ -44,7 +44,7 @@ jobs:
       -
         name: updating deployment image
         run: |
-          export IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME: testingnew }}:latest
+          export IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
           echo $IMAGE_NAME
           sed -i"s|akscicd/testingnew.*$|$IMAGE_NAME|" deployment.yaml
       -
