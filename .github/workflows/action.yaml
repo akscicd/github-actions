@@ -44,10 +44,26 @@ jobs:
       -
         name: updating deployment image
         run: |
+          echo "Before sed command:"
+          git status
+          echo "Contents of deployment.yaml before sed command:"
+          cat deployment.yaml
+          
+          
           export IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
           echo $IMAGE_NAME
           sed -i "s|akscicd/testingnew.*$|$IMAGE_NAME|" deployment.yaml
+          
           echo $IMAGE_NAME
+
+          echo "After sed command:"
+          git status
+          echo "Contents of deployment.yaml after sed command:"
+          cat deployment.yaml
+
+          git add .
+          echo "After git add:"
+          git status
       -
         name: push to new image name to repo inside deployment.yaml
         run: |
