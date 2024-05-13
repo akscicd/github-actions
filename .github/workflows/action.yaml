@@ -30,46 +30,57 @@ jobs:
         with:
           push: true
           tags: '${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest'
-#  cd:
-#   needs: integration
- #   runs-on: ubuntu-latest
-  #  steps:
-   #   -
-   #     name: Checkout deployment repo
-    #    uses: actions/checkout@v3
-     #   with:
-      #    repository: akscicd/testapp
-       #   token: ${{ secrets.GH_PAT }}
-        #  ref: 'main'
-   #   -
-   #     name: updating deployment image
-    #    run: |
-     #     echo "Before sed command:"
-      #    git status
-       #   echo "Contents of deployment.yaml before sed command:"
-        #  cat deployment.yaml
-          
-          
-#          export IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-#         echo $IMAGE_NAME
-#         sed -i "s|image: akscicd/testingn|image: $IMAGE_NAME|" deployment.yaml
+  cd:
+   needs: integration
+   runs-on: ubuntu-latest
+   steps:
+    - name: Checkout deployment repo
+      uses: actions/checkout@v3
+      with:
+        repository: akscicd/testapp
+        token: '${{ secrets.GH_PAT }}'
+        ref: main
+    - name: updating deployment image
+      run: >
+        echo "Before sed command:"
 
-#         echo $IMAGE_NAME
+        git status
 
- #         echo "After sed command:"
-  #        git status
-   #       echo "Contents of deployment.yaml after sed command:"
-    #      cat deployment.yaml
+        echo "Contents of deployment.yaml before sed command:"
 
-     #     git add .
-      #    echo "After git add:"
- #         git status
-  #    -
-      #  name: push to new image name to repo inside deployment.yaml
-     #   run: |
-    #      git config --global user.email "amit.stp2001@gmail.com"
-   #       git config --global user.name "Runner"
-  #        git add .
- #         git commit -m "${IMAGE_NAME} Tag"
-#          git push
-    
+        cat deployment.yaml
+
+
+
+        export IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME
+        }}:latest
+
+        echo $IMAGE_NAME
+
+        sed -i "s|image: akscicd/testingn|image: $IMAGE_NAME|" deployment.yaml
+
+
+        echo $IMAGE_NAME
+
+
+        echo "After sed command:"
+
+        git status
+
+        echo "Contents of deployment.yaml after sed command:"
+
+        cat deployment.yaml
+
+
+        git add .
+
+        echo "After git add:"
+
+        git status
+    - name: push to new image name to repo inside deployment.yaml
+      run: |
+        git config --global user.email "amit.stp2001@gmail.com"
+        git config --global user.name "Runner"
+        git add .
+        git commit -m "${IMAGE_NAME} Tag"
+        git push
