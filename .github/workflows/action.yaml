@@ -48,7 +48,7 @@ jobs:
 
         echo "Contents of deployment.yaml before sed command:"
 
-        cat deployment.yaml
+        cat myapp/deployment.yaml
 
 
 
