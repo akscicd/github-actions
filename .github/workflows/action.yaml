@@ -57,7 +57,7 @@ jobs:
 
         echo $IMAGE_NAME
 
-        sed -i "s|image: akscicd/testingn|image: $IMAGE_NAME|" myapp/deployment.yaml
+        sed -i "s|image: akscicd/testingnew|image: $IMAGE_NAME|" myapp/deployment.yaml
 
 
         echo $IMAGE_NAME
