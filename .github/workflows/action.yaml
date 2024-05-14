@@ -50,7 +50,7 @@ jobs:
     - name: updating deployment image
       run: >
         echo "Before sed command:"
-        echo ${{ steps.vars.outputs.sha_short }}
+        echo "${{ steps.vars.outputs.sha_short }}"
 
         git status
 
@@ -60,8 +60,7 @@ jobs:
 
 
 
-        export IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME
-        }}:${{ steps.vars.outputs.sha_short }}
+        export IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}"
 
         echo $IMAGE_NAME
 
