@@ -51,43 +51,31 @@ jobs:
       run: >
         echo "Before sed command:"
         echo "${{ steps.vars.outputs.sha_short }}"
-
         git status
-
         echo "Contents of deployment.yaml before sed command:"
-
         cat myapp/deployment.yaml
-
-
-
-        export IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}"
-
+        export IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}-${{ steps.vars.outputs.sha_short }}"
         echo $IMAGE_NAME
-
         sed -i "s|image: akscicd/testingnew.*|image: $IMAGE_NAME|" myapp/deployment.yaml
-
-
         echo $IMAGE_NAME
-
-
         echo "After sed command:"
-
         git status
-
         echo "Contents of deployment.yaml after sed command:"
-
+        cat myapp/deployment.yaml
+        git add .
+        echo "After git add:"
+        git status
         cat myapp/deployment.yaml
 
-
-        git add .
-
-        echo "After git add:"
-
-        git status
-    - name: push to new image name to repo inside deployment.yaml
-      run: |
         git config --global user.email "amit.stp2001@gmail.com"
         git config --global user.name "Runner"
-        git add .
         git commit -m "${IMAGE_NAME} Tag"
         git push
+        
+    #- name: push to new image name to repo inside deployment.yaml
+    # run: |
+    #    git config --global user.email "amit.stp2001@gmail.com"
+    #    git config --global user.name "Runner"
+    #    git add .
+    #    git commit -m "${IMAGE_NAME} Tag"
+    #    git push
