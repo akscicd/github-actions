@@ -11,11 +11,18 @@ env:
 jobs:
   integration:
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.vars.outputs.sha_short }}
     steps:
       - name: checkout main branch
         uses: actions/checkout@v3
         with:
           ref: main
+      -
+        name: Get Commit Details
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+        
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -29,7 +36,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: '${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest'
+          tags: '${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}'
   cd:
    needs: integration
    runs-on: ubuntu-latest
@@ -53,7 +60,7 @@ jobs:
 
 
         export IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME
-        }}:latest
+        }}:${{ steps.vars.outputs.sha_short }}
 
         echo $IMAGE_NAME
 
