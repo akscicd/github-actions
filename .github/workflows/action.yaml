@@ -50,6 +50,7 @@ jobs:
     - name: updating deployment image
       run: >
         echo "Before sed command:"
+        echo ${{ steps.vars.outputs.sha_short }}
 
         git status
 
