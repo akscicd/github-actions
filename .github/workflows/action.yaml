@@ -48,22 +48,22 @@ jobs:
           token: '${{ secrets.GH_PAT }}'
           ref: main
       - name: updating deployment image
-        run: >
-          echo "Before sed command:"
-          echo "${{ steps.vars.outputs.sha_short }}"
+        run: |
+          echo "Before sed command:";
+          echo "${{ steps.vars.outputs.sha_short }}";
           git status
-          echo "Contents of deployment.yaml before sed command:"
+          echo "Contents of deployment.yaml before sed command:";
           cat myapp/deployment.yaml
           export IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}-${{ steps.vars.outputs.sha_short }}"
-          echo $IMAGE_NAME
+          echo $IMAGE_NAME;
           sed -i "s|image: akscicd/testingnew.*|image: $IMAGE_NAME|" myapp/deployment.yaml
-          echo $IMAGE_NAME
-          echo "After sed command:"
+          echo $IMAGE_NAME;
+          echo "After sed command:";
           git status
-          echo "Contents of deployment.yaml after sed command:"
+          echo "Contents of deployment.yaml after sed command:";
           cat myapp/deployment.yaml
           git add .
-          echo "After git add:"
+          echo "After git add:";
           git status
           cat myapp/deployment.yaml
 
