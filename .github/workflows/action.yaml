@@ -54,6 +54,15 @@ jobs:
           git status
           echo "Contents of deployment.yaml before sed command:";
           cat myapp/deployment.yaml
+
+          #Debugsteps
+          echo "________________________________________________________";
+          echo "DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}";
+          echo "IMAGE_NAME: ${{ env.IMAGE_NAME }}";
+          echo "Short commit ID: ${{ steps.vars.outputs.sha_short }}";
+          echo "________________________________________________________";
+
+          
           export IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}-${{ steps.vars.outputs.sha_short }}"
           echo $IMAGE_NAME;
           sed -i "s|image: akscicd/testingnew.*|image: $IMAGE_NAME|" myapp/deployment.yaml
